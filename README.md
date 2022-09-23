@@ -1,4 +1,4 @@
-# ComputerArchitecture
-leetcode 283 Move Zeroes\n
-C code in MoveZeroes.c\n
+# ComputerArchitecture  
+leetcode 283 Move Zeroes  
+C code in MoveZeroes.c  
 Assembly in MoveZeroes.s
