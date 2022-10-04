@@ -22,7 +22,7 @@ nums3:
 
 .text
 main:
-    la s0 nums3                 # load nums base address to s0
+    la s0 nums1                 # load nums base address to s0
     addi s1 x0 5               #nums_size = 5
     
     #call function moveZeroes
@@ -38,21 +38,21 @@ main:
 moveZeroes:
     addi sp sp -12
     sw ra 0(sp)
-    sw s1 4(sp)
-    sw s2 8(sp)
+    sw s0 4(sp)
+    sw s1 8(sp)
     li s1 0                    #next non zero index = 0
     addi s2 x0 0                 # i = 0
     loop:
         bge s2 a1 exit           #i >= array_size exit
-        slli t1 s2 2             #i * 4
-        add t1 a0 t1             #array + i*4
-        lw t3 0(t1)              #t3 = array[i]
-        beq t3 x0 next_iter
+        slli t0 s2 2             #i * 4
+        add t0 a0 t0             #array + i*4
+        lw t1 0(t0)              #t1 = array[i]
+        beq t1 x0 next_iter
         slli t2 s1 2             #next_nonzero_index * 4
         add t2 t2 a0             #array + next_nonzero_index * 4
-        sw t3 0(t2)              #array[next_nonzero_index] = array[i]
+        sw t1 0(t2)              #array[next_nonzero_index] = array[i]
         beq s1 s2 next_iter_addIndex             #if(next_nonzero_index != i)
-        sw x0 0(t1)              #store 0 to array[i]
+        sw x0 0(t0)              #store 0 to array[i]
     next_iter_addIndex:
         addi s1 s1 1             #next_nonzero_index++
     next_iter:
@@ -60,8 +60,8 @@ moveZeroes:
         j loop
  exit:
     lw ra 0(sp)
-    lw s1 4(sp)
-    lw s2 8(sp)
+    lw s0 4(sp)
+    lw s1 8(sp)
     addi sp sp 12
     jr ra
  
@@ -69,20 +69,20 @@ printArray:
     li a7 1
     addi sp sp -8
     sw ra 0(sp)
-    sw s1 4(sp)
-    add s1 a0 x0 # s1 = pointer to array
-    add t1 x0 x0 # t1 = i in for loop
+    sw s0 4(sp)
+    add s0 a0 x0 # s1 = pointer to array
+    add t0 x0 x0 # t0 = i in for loop
     printloop:
-        bge t1 a1 finish_print_loop
-        slli t2 t1 2 # t2 = i * 4
-        add t2 t2 s1 # t2 = t2 + array address
-        lw a0 0(t2) # a0 = element in nums[i]
+        bge t0 a1 finish_print_loop
+        slli t1 t0 2 # t1 = i * 4
+        add t1 t1 s0 # t1 = t1 + array address
+        lw a0 0(t1) # a0 = element in nums[i]
         li a7 1
         ecall
-        addi t1 t1 1
+        addi t0 t0 1
         j printloop
     finish_print_loop:
         lw ra 0(sp)
-        lw s1 4(sp)
+        lw s0 4(sp)
         addi sp sp 8
         jr ra
